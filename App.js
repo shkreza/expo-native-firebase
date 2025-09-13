@@ -38,13 +38,11 @@ export default class App extends React.Component {
       .onNotificationDisplayed(notification => {
         // Process your notification as required
         // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-        console.log('onNotificationDisplayed', notification);
       });
     this.notificationListener = firebase
       .notifications()
       .onNotification(notification => {
         // Process your notification as required
-        console.log('onNotification', notification);
       });
     this.notificationOpenedListener = firebase
       .notifications()
@@ -53,25 +51,21 @@ export default class App extends React.Component {
         const action = notificationOpen.action;
         // Get information about the notification that was opened
         const notification = notificationOpen.notification;
-        console.log('onNotificationOpened', notificationOpen);
       });
 
     this.messageListener = firebase.messaging().onMessage(message => {
       // Process your message as required
-      console.log('onMessage', message);
     });
     this.onTokenRefreshListener = firebase
       .messaging()
       .onTokenRefresh(fcmToken => {
         // Process your token as required
-        console.log('onTokenRefresh', fcmToken);
       });
 
     // expo-firebase-notifications: 1.0.0-rc.5
     const initial = await firebase.notifications().getInitialNotification();
     if (initial) {
       const { notification, action } = initial;
-      console.log('Got Initial Notification:', { notification, action });
     }
 
     /*
@@ -88,7 +82,6 @@ export default class App extends React.Component {
     const invite = await firebase.invites().getInitialInvitation();
     if (invite) {
       const { deepLink, invitationId } = invite;
-      console.log('Got Initial Invite:', { deepLink, invitationId });
     }
   };
 
@@ -98,6 +91,7 @@ export default class App extends React.Component {
     this.notificationListener();
     this.notificationOpenedListener();
     this.messageListener();
+    this.onTokenRefreshListener();
   }
 
   render() {
